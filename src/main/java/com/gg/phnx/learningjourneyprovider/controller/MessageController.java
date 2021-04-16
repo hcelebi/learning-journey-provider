@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 public class MessageController {
 
     @GetMapping
-    public MessageResponse getMessage(@RequestParam String name) {
+    public MessageResponse getMessage() {
         MessageResponse messageResponse = new MessageResponse();
-        messageResponse.setMessage("Hello World " + name + " Message From Provider");
+        messageResponse.setMessage("Hello World Message From Provider");
         return messageResponse;
     }
 }
