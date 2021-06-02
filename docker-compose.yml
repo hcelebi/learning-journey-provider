@@ -13,12 +13,12 @@ services:
     - learning-journey-network
     restart: always
   learning-journey-back-end:
-    image:
+    image: learning-journey-provider:1.0.0
     ports:
-      - "3000:3000"
+      - "8080:8080"
     networks:
       - learning-journey-network
     restart: always
 networks:
-  devops:
+  learning-journey-network:
     driver: bridge
