@@ -3,22 +3,22 @@ version: '3'
 services:
   learning-journey-front-end:
     build:
-      context: /Users/ayilmaz/Desktop/GGProjects/examples/learning-journey
+      context: /Users/aozfidan/Projects/GittiGidiyor/learning-journey/phnx-learning-journey/learning-journey
       dockerfile: Dockerfile
     volumes:
-    - /Users/ayilmaz/Desktop/GGProjects/examples/learning-journey/:/app:delegated
+    - /Users/aozfidan/Projects/GittiGidiyor/learning-journey/phnx-learning-journey/learning-journey:/app:delegated
     ports:
     - "3000:3000"
     networks:
     - learning-journey-network
     restart: always
   learning-journey-back-end:
-    image:
+    image: learning-journey-provider:1.0.0
     ports:
-      - "3000:3000"
+      - "8080:8080"
     networks:
       - learning-journey-network
     restart: always
 networks:
-  devops:
+  learning-journey-network:
     driver: bridge
