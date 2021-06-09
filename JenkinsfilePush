@@ -1,0 +1,116 @@
+@Library('jenkinsfile-sharedlibraries@master')
+
+def scmUrl = scm.getUserRemoteConfigs()[0].getUrl()
+Map gitVars
+def (GROUP, REPOSITORY) = JOB_NAME.toLowerCase().split("/")
+
+def DOCKER_IMAGE_NAME = "learning-journey-provider"
+
+String SHORT_BRANCH_NAME
+String DOCKER_IMAGE_VERSION
+
+pipeline {
+    agent {
+        label 'dockerbuilder'
+    }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '15', artifactNumToKeepStr: '10'))
+        timeout(time: 1, unit: 'HOURS')
+        timestamps()
+        gitLabConnection('gitlab-connection')
+        disableConcurrentBuilds()
+    }
+
+    environment {
+        DOCKER_GID = 990
+    }
+
+    triggers {
+        gitlab(
+                triggerOnPush: true,
+                triggerOnMergeRequest: false,
+                triggerOpenMergeRequestOnPush: "never",
+                triggerOnNoteRequest: true,
+                noteRegex: "retry",
+                skipWorkInProgressMergeRequest: false,
+                ciSkip: true,
+                setBuildDescription: true,
+                addNoteOnMergeRequest: true,
+                addCiMessage: true,
+                addVoteOnMergeRequest: true,
+                acceptMergeRequestOnSuccess: false,
+                branchFilterType: "RegexBasedFilter",
+                sourceBranchRegex: '(feature/.*|master|hotfix.*|bug/.*|improvement/.*|merge/.*)',
+                cancelPendingBuildsOnUpdate: true,
+                secretToken: "")
+    }
+
+    stages {
+        stage("Docker Build") {
+            steps {
+                script {
+                    sh "docker build --pull -t $DOCKER_IMAGE_NAME:${env.BUILD_NUMBER} ."
+                }
+            }
+        }
+
+        stage("Docker Push") {
+            parallel {
+                stage("Docker Push (Office)") {
+                    steps {
+                        script {
+                            pushToRegistry("${env.REGISTRY_TEST}", "$DOCKER_IMAGE_NAME", "${env.BUILD_NUMBER}")
+                        }
+                    }
+                }
+            }
+            post {
+                always {
+                    sh "docker rmi $DOCKER_IMAGE_NAME:${env.BUILD_NUMBER}"
+                }
+            }
+        }
+
+        stage("Deploy To Test Cluster With Agent") {
+            agent {
+                kubernetes {
+                    cloud 'kubernetes-dev'
+                    label 'learning-journey-provider-dev-deploy'
+                    defaultContainer 'kubectl'
+                    yaml """
+                    apiVersion: v1
+                    kind: Pod
+                    metadata:
+                      labels:
+                        goal: deploy
+                    spec:
+                      securityContext:
+                        runAsUser: 0
+                      containers:
+                        - name: kubectl
+                          image: lachlanevenson/k8s-kubectl
+                          resources:
+                            requests:
+                              memory: 100Mi
+                              cpu : 250m
+                            limits:
+                              memory: 300Mi
+                              cpu : 250m
+                          command:
+                            - cat
+                          tty: true
+                    """
+                }
+            }
+            steps {
+                script {
+                    sh """
+                    sed "s/%%IMAGE_VERSION%%/${env.BUILD_NUMBER}/g" $WORKSPACE/kube/deployment.yaml > $WORKSPACE/kube/temp-deployment.yaml
+                    kubectl  apply -f $WORKSPACE/kube/temp-deployment.yaml -f $WORKSPACE/kube/service.yaml  -n phnx
+                    """
+                }
+            }
+        }
+    }
+}
