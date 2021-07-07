@@ -1,12 +1,12 @@
 version: '3'
 
 services:
-  learning-journey-front-end:
+  learning-journey-front-end2:
     build:
-      context: /Users/aozfidan/Projects/GittiGidiyor/learning-journey/phnx-learning-journey/learning-journey
+      context: /Users/okaracali/workspace/git/phnx/learning-journey
       dockerfile: Dockerfile
     volumes:
-    - /Users/aozfidan/Projects/GittiGidiyor/learning-journey/phnx-learning-journey/learning-journey:/app:delegated
+    - /Users/okaracali/workspace/git/phnx/learning-journey:/app:delegated
     ports:
     - "3000:3000"
     networks:
