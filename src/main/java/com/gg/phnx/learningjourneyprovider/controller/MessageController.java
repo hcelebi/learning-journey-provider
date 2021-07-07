@@ -12,7 +12,7 @@ public class MessageController {
     @GetMapping
     public MessageResponse getMessage() {
         MessageResponse messageResponse = new MessageResponse();
-        messageResponse.setMessage("Hello World Message From Provider");
+        messageResponse.setDescription("Hello World");
         return messageResponse;
     }
 }
