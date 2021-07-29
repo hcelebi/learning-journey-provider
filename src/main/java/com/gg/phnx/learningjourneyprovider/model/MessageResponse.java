@@ -1,13 +1,13 @@
 package com.gg.phnx.learningjourneyprovider.model;
 
 public class MessageResponse {
-    private String message;
+    private String text;
 
-    public String getMessage() {
-        return message;
+    public String getText() {
+        return text;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public void setText(String text) {
+        this.text = text;
     }
 }
