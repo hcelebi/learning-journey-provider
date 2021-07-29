@@ -1,7 +1,14 @@
 package com.gg.phnx.learningjourneyprovider.model;
 
 public class MessageResponse {
+
+    /**
+     * DO NOT TOUCH THIS!
+     */
+    @Deprecated
     private String title;
+
+    private String message;
 
     public String getTitle() {
         return title;
@@ -9,5 +16,13 @@ public class MessageResponse {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
