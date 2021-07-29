@@ -12,7 +12,7 @@ public class MessageController {
     @GetMapping
     public MessageResponse getMessage() {
         MessageResponse messageResponse = new MessageResponse();
-        messageResponse.setText("Hello World");
+        messageResponse.setTitle("Hello World");
         return messageResponse;
     }
 }
