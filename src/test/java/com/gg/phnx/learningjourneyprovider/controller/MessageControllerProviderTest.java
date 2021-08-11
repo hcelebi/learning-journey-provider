@@ -20,7 +20,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
     host = "10.35.101.51",
     port = "30266",
     scheme = "http",
-    consumerVersionSelectors = {@VersionSelector(tag = "feature-test3")}
+    consumerVersionSelectors = {
+        @VersionSelector(tag = "master"),
+        @VersionSelector(tag = "feature-test3")
+    }
 )
 class MessageControllerProviderTest {
 
