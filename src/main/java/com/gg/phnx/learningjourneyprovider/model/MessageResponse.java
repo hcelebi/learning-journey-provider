@@ -2,21 +2,9 @@ package com.gg.phnx.learningjourneyprovider.model;
 
 public class MessageResponse {
 
-    /**
-     * DO NOT TOUCH THIS!
-     */
-    @Deprecated
-    private String title;
+    private String name;
 
     private String message;
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
 
     public String getMessage() {
         return message;
@@ -24,5 +12,13 @@ public class MessageResponse {
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

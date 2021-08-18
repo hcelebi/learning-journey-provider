@@ -7,18 +7,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class MessageController {
 
-    @Deprecated
-    @GetMapping("/message")
-    public MessageResponse getMessageDeprecated() {
-        MessageResponse messageResponse = new MessageResponse();
-        messageResponse.setMessage("Hello World");
-        return messageResponse;
-    }
-
     @GetMapping("/messages")
     public MessageResponse getMessage() {
         MessageResponse messageResponse = new MessageResponse();
         messageResponse.setMessage("Hello World");
+        messageResponse.setName("phnx");
         return messageResponse;
     }
 }
