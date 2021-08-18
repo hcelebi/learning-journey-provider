@@ -17,13 +17,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @Provider("learning-journey-provider")
 @PactFolder("pacts")
 @PactBroker(
-    host = "10.35.101.51",
-    port = "30266",
-    scheme = "http",
-    consumerVersionSelectors = {
-        @VersionSelector(tag = "master"),
-        @VersionSelector(tag = "feature-test3")
-    }
+        host = "10.35.101.51",
+        port = "30266",
+        scheme = "http",
+        consumerVersionSelectors = {
+                @VersionSelector(tag = "master"),
+                @VersionSelector(tag = "feature-test3"),
+                @VersionSelector(tag = "feature-problem-4")
+        }
 )
 class MessageControllerProviderTest {
 
