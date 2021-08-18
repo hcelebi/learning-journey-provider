@@ -9,6 +9,8 @@ def DOCKER_IMAGE_NAME = "learning-journey-provider"
 String SHORT_BRANCH_NAME
 String DOCKER_IMAGE_VERSION
 
+SHORT_BRANCH_NAME = "${env.BRANCH_NAME}".replaceAll('origin/', '').replaceAll('/', '-').trim()
+
 pipeline {
     agent {
         label 'dockerbuilder'
