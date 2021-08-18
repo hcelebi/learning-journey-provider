@@ -9,7 +9,7 @@ def DOCKER_IMAGE_NAME = "learning-journey-provider"
 String SHORT_BRANCH_NAME
 String DOCKER_IMAGE_VERSION
 
-SHORT_BRANCH_NAME = "${env.BRANCH_NAME}".replaceAll('origin/', '').replaceAll('/', '-').trim()
+
 
 pipeline {
     agent {
@@ -75,7 +75,9 @@ pipeline {
         }
 
         stage('Can I Deploy') {
-            when { expression { return SHORT_BRANCH_NAME == 'master' } }
+            when { expression {
+            SHORT_BRANCH_NAME = "${env.BRANCH_NAME}".replaceAll('origin/', '').replaceAll('/', '-').trim()
+            return SHORT_BRANCH_NAME == 'master' } }
             steps {
                 script {
                     String COMMAND = "broker can-i-deploy --pacticipant learning-journey-provider --latest"
