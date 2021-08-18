@@ -6,7 +6,6 @@ import au.com.dius.pact.provider.junitsupport.Provider;
 import au.com.dius.pact.provider.junitsupport.State;
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker;
 import au.com.dius.pact.provider.junitsupport.loader.PactFolder;
-import au.com.dius.pact.provider.junitsupport.loader.VersionSelector;
 import org.junit.jupiter.api.TestTemplate;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,14 +16,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @Provider("learning-journey-provider")
 @PactFolder("pacts")
 @PactBroker(
-        host = "10.35.101.51",
-        port = "30266",
-        scheme = "http",
-        consumerVersionSelectors = {
-                @VersionSelector(tag = "master"),
-                @VersionSelector(tag = "feature-test3"),
-                @VersionSelector(tag = "feature-problem-4")
-        }
+    host = "10.35.101.51",
+    port = "30266",
+    scheme = "http",
+    enablePendingPacts = "true",
+    includeWipPactsSince = "2021-08-01",
+    providerTags = "main"
 )
 class MessageControllerProviderTest {
 
