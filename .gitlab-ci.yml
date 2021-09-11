@@ -1,0 +1,23 @@
+
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - deploy
+
+build-job:       # This job runs in the build stage, which runs first.
+  stage: build
+  when: manual
+  image: docker:latest
+  services:
+    - docker:dind
+  script:
+    - docker login -u hakobe32 -p Celebi_32
+    - echo "Compiling the code..."
+    - docker build --pull -t hakobe32/learning-journey-provider:$CI_PIPELINE_IID .
+    - echo "Compile complete."
+    - echo "Docker image pushing"
+    - docker push hakobe32/learning-journey-provider:$CI_PIPELINE_IID
+    - echo "Docker image pushed"
+deploy-job:
+  stage: deploy
+  script:
+    - kubectl config --kubeconfig=kube/.config view
