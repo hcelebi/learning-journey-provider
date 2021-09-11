@@ -21,7 +21,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
     authentication = @PactBrokerAuth(token = "bZCMbZnsXOhPJ0x4H6wVUg"),
     scheme = "https",
     enablePendingPacts = "true",
-    includeWipPactsSince = "2021-08-01",
+    includeWipPactsSince = "2021-08-02",
     providerTags = "main"
 )
 class MessageControllerProviderTest {
