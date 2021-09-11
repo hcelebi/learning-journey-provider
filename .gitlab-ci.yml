@@ -19,5 +19,6 @@ build-job:       # This  job runs in the build stage, which runs first.
     - echo "Docker image pushed"
 deploy-job:
   stage: deploy
+  image: lwolf/helm-kubectl-docker:v152_213
   script:
     - kubectl config --kubeconfig=kube/.config view
